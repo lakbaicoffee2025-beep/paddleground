@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Paddle Ground – Book a Court</title>
+<link rel="icon" id="siteFavicon" href="/assets/logo-header.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root {
+  --navy:   #0A1226;
+  --navy2:  #111B36;
+  --navy3:  #17244A;
+  --navy4:  #20325F;
+  --accent:  #F26A1B;
+  --accent2: #FF8A3D;
+  --accent3: rgba(242,106,27,0.16);
+  --timer:  #FBBF24;
+  --red:    #ef4444;
+  --text:   #FFFFFF;
+  --text2:  rgba(255,255,255,0.65);
+  --text3:  rgba(255,255,255,0.4);
+  --border: rgba(255,255,255,0.12);
+  --border2: rgba(255,255,255,0.06);
+  --font: 'Outfit', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+img { max-width: 100%; display: block; }
+button { font-family: var(--font); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  height: 100dvh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(242,106,27,.14), transparent 55%),
+    linear-gradient(160deg, #0A1226 0%, #101D3E 55%, #18295A 100%);
+  z-index: 0;
+}
+.carousel-track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  transition: transform .5s ease;
+  z-index: 0;
+}
+.carousel-slide {
+  flex: 0 0 100%;
+  height: 100%;
+}
+.carousel-slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: .45;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,18,38,.65) 0%, rgba(10,18,38,.5) 50%, rgba(10,18,38,.88) 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.hero-logo-badge {
+  width: clamp(150px, 34vw, 220px); height: clamp(150px, 34vw, 220px);
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  overflow: hidden;
+  box-shadow: 0 0 34px rgba(242,106,27,.28), 0 4px 24px rgba(0,0,0,.5);
+}
+.hero-logo-badge img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.hero-logo-badge-fallback {
+  font-size: 2.4rem;
+}
+.hero-title {
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(2.5rem, 9vw, 5.6rem);
+  letter-spacing: 1px;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 24px rgba(0,0,0,.6);
+}
+.hero-sub1 {
+  font-size: clamp(.72rem, 1.5vw, .9rem);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--text2);
+  margin-bottom: 4px;
+}
+.hero-sub2 {
+  font-weight: 700;
+  font-size: clamp(.95rem, 2.3vw, 1.25rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.hero-divider {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin: 0 auto 28px;
+}
+.hero-cta-icon {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(242,106,27,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all .2s;
+  animation: pulse 2.5s infinite;
+}
+.hero-cta-icon:hover {
+  border-color: var(--accent);
+  background: rgba(242,106,27,.12);
+  transform: scale(1.05);
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(242,106,27,.3); }
+  50% { box-shadow: 0 0 0 14px rgba(242,106,27,0); }
+}
+.hero-cta-text {
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(1.6rem, 4.6vw, 2.5rem);
+  letter-spacing: .12em;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color .2s;
+  margin-bottom: 8px;
+}
+.hero-cta-text:hover { color: var(--accent2); }
+.hero-cta-sub {
+  font-size: .85rem;
+  color: var(--text2);
+  margin-bottom: 24px;
+}
+.hero-location {
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  background: rgba(10,18,38,.5);
+  color: rgba(255,255,255,.6);
+  border: 1px solid var(--border);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 10;
+  transition: all .2s;
+}
+.carousel-btn:hover { background: rgba(242,106,27,.3); border-color: var(--accent); }
+.carousel-btn.prev { left: 16px; }
+.carousel-btn.next { right: 16px; }
+.carousel-dots {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 10;
+}
+.carousel-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,.3); cursor: pointer; transition: all .2s;
+}
+.carousel-dot.active { background: var(--accent); width: 20px; border-radius: 4px; }
+
+/* ── RULES MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: var(--navy2);
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 88vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 64px rgba(0,0,0,.6);
+}
+.modal-head {
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-head h2 {
+  font-weight: 800;
+  font-size: 1.45rem;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.modal-head p { font-size: .8rem; color: var(--text2); }
+.modal-body { padding: 16px 22px; overflow-y: auto; flex: 1; }
+.modal-body::-webkit-scrollbar { width: 4px; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.rule-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: var(--navy3);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 13px 14px;
+  margin-bottom: 8px;
+}
+.rule-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--accent3);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: .75rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.rule-title { font-size: .9rem; font-weight: 600; color: #fff; margin-bottom: 3px; }
+.rule-body { font-size: .8rem; color: var(--text2); line-height: 1.55; }
+.modal-foot {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px;
+}
+.btn-cancel {
+  flex: 1; padding: 13px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .9rem;
+  transition: all .2s;
+}
+.btn-cancel:hover { border-color: rgba(255,255,255,.3); color: #fff; }
+.btn-agree {
+  flex: 1.5; padding: 13px;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .9rem;
+  font-weight: 600;
+  transition: background .2s;
+}
+.btn-agree:hover { background: var(--accent2); }
+
+/* ── BOOKING SECTION ── */
+#bookingSection {
+  display: none;
+  min-height: 100vh;
+}
+#bookingSection.visible { display: block; }
+
+/* TOPBAR */
+.topbar {
+  background: var(--navy);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-logo {
+  display: flex; align-items: center; gap: 10px;
+}
+.topbar-logo img {
+  height: 40px; width: 40px;
+  border-radius: 50%; object-fit: cover; background: var(--navy);
+  border: 1px solid var(--accent);
+}
+.topbar-logo-text .tl-name {
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.05rem;
+  letter-spacing: .5px;
+  color: #fff;
+  line-height: 1.1;
+}
+.topbar-logo-text .tl-loc {
+  font-size: .64rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 1px;
+}
+.topbar-tagline {
+  font-weight: 600;
+  font-size: .75rem;
+  letter-spacing: .2em;
+  color: var(--text3);
+  text-transform: uppercase;
+}
+.topbar-contact a {
+  font-size: .78rem;
+  color: var(--text2);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+  transition: color .2s;
+}
+.topbar-contact a:hover { color: var(--accent); }
+
+/* BOOKING MAIN */
+.bk-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+.bk-heading {
+  margin-bottom: 20px;
+}
+.bk-heading h1 {
+  font-weight: 800;
+  font-size: clamp(1.5rem, 4.4vw, 2.2rem);
+  letter-spacing: .5px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.bk-heading p { font-size: .86rem; color: var(--text2); }
+
+/* STEPS */
+.steps {
+  display: flex; gap: 2px;
+  margin-bottom: 22px;
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.step {
+  flex: 1; display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px;
+  font-size: .78rem; color: var(--text3);
+  transition: all .3s;
+}
+.step.active { background: var(--navy3); color: #fff; }
+.step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .68rem; font-weight: 700; flex-shrink: 0;
+}
+.step.active .step-num { background: var(--accent3); color: var(--accent); }
+
+/* LAYOUT */
+.bk-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.bk-side { position: sticky; top: 76px; }
+
+/* PANELS */
+.panel {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.panel-hd {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  font-size: .82rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text);
+  display: flex; align-items: center; gap: 7px;
+}
+.panel-bd { padding: 14px; }
+
+/* COURT PICKER */
+.court-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+.court-btn {
+  position: relative;
+  padding: 14px 8px 12px;
+  background: var(--navy3);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--text2);
+  cursor: pointer;
+  text-align: center;
+  transition: all .15s;
+}
+.court-btn:hover { border-color: var(--accent); color: #fff; }
+.court-btn.active { background: var(--accent3); border-color: var(--accent); color: #fff; box-shadow: 0 0 0 1px var(--accent); }
+.court-btn .cb-label { font-size: .64rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--text3); }
+.court-btn.active .cb-label { color: var(--accent2); }
+.court-btn .cb-num { font-weight: 900; font-style: italic; font-size: 1.9rem; line-height: 1.05; }
+.court-btn .cb-count {
+  position: absolute; top: 6px; right: 6px;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  border-radius: 9px; background: var(--accent); color: #fff;
+  font-size: .62rem; font-weight: 700;
+  display: none; align-items: center; justify-content: center;
+}
+.court-btn .cb-count.show { display: flex; }
+
+/* CALENDAR */
+.cal-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cal-nav-btn {
+  width: 30px; height: 30px;
+  border: 1px solid var(--border);
+  background: var(--navy3);
+  border-radius: 6px;
+  cursor: pointer; font-size: .9rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text2);
+  transition: all .15s;
+}
+.cal-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+.cal-month-label {
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: .5px;
+  color: #fff;
+}
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 2px;
+}
+.cal-dow {
+  text-align: center;
+  font-size: .62rem; font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 4px 0;
+}
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  border-radius: 6px;
+  font-size: .8rem;
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .15s;
+  position: relative; gap: 2px;
+  border: 1px solid transparent;
+}
+.cal-day:hover:not(.empty):not(.past) { background: var(--navy4); color: #fff; }
+.cal-day.empty { cursor: default; }
+.cal-day.past { opacity: .25; cursor: default; }
+.cal-day.today { border-color: var(--accent); color: #fff; font-weight: 700; }
+.cal-day.selected { background: var(--accent3); border-color: var(--accent); color: var(--accent2); font-weight: 700; }
+.cal-day.has-bookings .dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; }
+.cal-day.full-day .dot { background: var(--red); }
+
+/* SLOTS */
+.avail-badge {
+  display: inline-flex; align-items: center;
+  background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.4);
+  color: #4ade80; font-size: .72rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  margin-bottom: 10px;
+  letter-spacing: .04em;
+}
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 6px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.time-grid::-webkit-scrollbar { width: 4px; }
+.time-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.time-slot {
+  padding: 10px 12px;
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .15s;
+  text-align: center;
+}
+.time-slot:hover:not(.taken):not(.selected) { border-color: var(--accent); background: var(--accent3); }
+.time-slot.selected { background: var(--accent3); border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.time-slot.taken { opacity: .45; cursor: not-allowed; }
+.time-slot.taken .ts-label { color: var(--text3); }
+.time-slot.reserved { opacity: .6; border-style: dashed; }
+.time-slot.reserved .ts-taken-label { color: var(--timer); }
+.ts-label { font-size: .8rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.ts-price { font-size: .76rem; color: var(--accent2); font-weight: 500; }
+.ts-taken-label { font-size: .66rem; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; }
+.slot-court-tag {
+  font-size: .66rem; font-weight: 700; letter-spacing: .12em;
+  padding: 2px 8px; border-radius: 12px;
+  background: var(--accent3); color: var(--accent2); text-transform: uppercase;
+}
+
+.no-date-msg { text-align: center; color: var(--text2); padding: 36px 14px; font-size: .85rem; }
+.no-date-msg .big { font-size: 1.8rem; margin-bottom: 8px; }
+.date-slot-panel { margin-bottom: 12px; }
+
+/* SELECTION PANEL */
+.bk-summary {
+  background: var(--navy3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: .82rem;
+}
+.sum-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+.sum-row span:first-child { color: var(--text2); }
+.sum-row span:last-child { font-weight: 600; color: #fff; text-align: right; }
+.sum-row.total span { color: var(--accent2); font-weight: 800; font-size: .95rem; letter-spacing: .5px; }
+.sum-empty { text-align: center; color: var(--text3); font-size: .8rem; padding: 6px 0; }
+.sum-group { border-bottom: 1px solid var(--border2); padding-bottom: 8px; margin-bottom: 8px; }
+
+.outdoor-notice {
+  background: rgba(251,191,36,.08);
+  border-left: 3px solid var(--timer);
+  border-radius: 0 8px 8px 0;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: .8rem;
+  color: rgba(251,191,36,.9);
+  line-height: 1.5;
+}
+.outdoor-notice strong { display: block; font-size: .82rem; margin-bottom: 2px; color: var(--timer); }
+
+.error-msg {
+  background: rgba(239,68,68,.14);
+  border: 1px solid rgba(239,68,68,.4);
+  color: #fca5a5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: .8rem;
+  margin-bottom: 12px;
+}
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 1.02rem;
+  letter-spacing: .14em;
+  color: #fff;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-submit:hover { background: var(--accent2); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.hold-note { font-size: .72rem; color: var(--text3); text-align: center; margin-top: 8px; }
+
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; margin-right: 6px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── CHECKOUT ── */
+.co-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(3,7,18,.78);
+  backdrop-filter: blur(5px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s;
+}
+.co-overlay.open { opacity: 1; pointer-events: all; }
+.co-box {
+  width: 100%; max-width: 540px; max-height: 94vh;
+  background: #16202E;
+  border: 1px solid rgba(148,163,184,.25);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+}
+.co-timerbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 16px;
+  background: rgba(251,191,36,.1);
+  border-bottom: 1px solid rgba(251,191,36,.3);
+  color: var(--timer);
+  font-size: .8rem; font-weight: 600;
+}
+.co-timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700; font-size: .9rem;
+  padding: 2px 10px; border-radius: 20px;
+  border: 1.5px solid var(--timer);
+  background: rgba(251,191,36,.12);
+}
+.co-timerbar.urgent { background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.45); color: #fca5a5; }
+.co-timerbar.urgent .co-timer { border-color: var(--red); background: rgba(239,68,68,.18); animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .55; } }
+
+.co-steps { display: flex; align-items: flex-start; padding: 14px 12px 8px; border-bottom: 1px solid rgba(148,163,184,.14); }
+.co-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; position: relative; font-size: .68rem; color: var(--text3); text-align: center; }
+.co-step::before {
+  content: ''; position: absolute; top: 13px; right: 50%; width: 100%; height: 2px;
+  background: rgba(148,163,184,.25); z-index: 0;
+}
+.co-step:first-child::before { display: none; }
+.co-step .co-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid rgba(148,163,184,.4);
+  background: #16202E;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .76rem; font-weight: 700; color: var(--text2);
+  position: relative; z-index: 1;
+}
+.co-step.done .co-dot { background: var(--accent); border-color: var(--accent); color: #fff; }
+.co-step.done::before, .co-step.current::before { background: var(--accent); }
+.co-step.current .co-dot { border-color: var(--accent); color: var(--accent2); box-shadow: 0 0 0 3px rgba(242,106,27,.2); }
+.co-step.done, .co-step.current { color: var(--accent2); }
+
+.co-body { padding: 16px; overflow-y: auto; flex: 1; }
+.co-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.co-fg { margin-bottom: 12px; }
+.co-fg label {
+  display: block; margin-bottom: 6px;
+  font-size: .74rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--text2);
+}
+.co-fg label small { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--text3); }
+.co-fg input, .co-fg textarea {
+  width: 100%; padding: 12px 13px;
+  background: #1F2A3A;
+  border: 1.5px solid rgba(148,163,184,.25);
+  border-radius: 8px;
+  color: #fff; font-family: var(--font); font-size: .92rem;
+  transition: border .15s, box-shadow .15s;
+}
+.co-fg input::placeholder, .co-fg textarea::placeholder { color: rgba(255,255,255,.35); }
+.co-fg input:focus, .co-fg textarea:focus { outline: none; border-color: var(--accent); }
+.co-fg textarea { resize: vertical; }
+.co-fg.invalid label { color: var(--red); }
+.co-fg.invalid input { border-color: var(--red); box-shadow: 0 0 0 3px rgba(239,68,68,.18); }
+.co-fg .co-err { display: none; color: #fca5a5; font-size: .74rem; margin-top: 4px; }
+.co-fg.invalid .co-err { display: block; }
+
+.co-summary {
+  border: 1px solid rgba(148,163,184,.25);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: .82rem;
+}
+.co-summary h4 { font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--text2); margin-bottom: 8px; }
+.co-sum-date { display: flex; justify-content: space-between; font-weight: 700; margin-top: 6px; }
+.co-sum-date span:last-child { font-size: .7rem; letter-spacing: .1em; color: var(--text2); font-weight: 600; }
+.co-sum-court { display: flex; justify-content: space-between; gap: 10px; margin-top: 4px; font-weight: 600; }
+.co-sum-court span:last-child { text-align: right; }
+.co-sum-rate { color: var(--text2); font-size: .78rem; }
+.co-sum-line { display: flex; justify-content: space-between; padding: 10px 0 0; margin-top: 10px; border-top: 1px solid rgba(148,163,184,.16); }
+.co-sum-line span:first-child { color: var(--text2); }
+.co-sum-line span:last-child { font-weight: 700; }
+.co-sum-total span:first-child { font-size: .74rem; font-weight: 700; letter-spacing: .12em; color: #fff; }
+.co-sum-total span:last-child { font-size: 1.15rem; font-weight: 800; color: var(--accent2); }
+
+.co-foot { display: flex; gap: 10px; padding: 14px 16px; border-top: 1px solid rgba(148,163,184,.14); }
+.co-btn {
+  flex: 1; padding: 13px; border-radius: 9px;
+  font-size: .95rem; font-weight: 700; cursor: pointer;
+  transition: all .15s;
+}
+.co-btn.ghost { background: #1F2A3A; border: 1.5px solid rgba(148,163,184,.25); color: #fff; }
+.co-btn.ghost:hover { border-color: rgba(148,163,184,.5); }
+.co-btn.primary { background: var(--accent); border: 1.5px solid var(--accent); color: #fff; }
+.co-btn.primary:hover { background: var(--accent2); border-color: var(--accent2); }
+.co-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* PAYMENT (inside checkout) */
+.pay-box {
+  background: #1F2A3A;
+  border: 1px solid rgba(148,163,184,.2);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+.pay-title {
+  font-weight: 700;
+  font-size: 1rem; letter-spacing: .3px; color: #fff;
+  margin-bottom: 10px;
+}
+.pay-number-box {
+  background: #16202E;
+  border: 1px solid rgba(148,163,184,.2);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 6px;
+}
+.pay-lbl { display: block; font-size: .64rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 4px; }
+.pay-val {
+  font-weight: 800;
+  font-size: 1.3rem; letter-spacing: 2px; color: var(--accent2);
+  text-decoration: none; display: block;
+}
+.pay-name { font-size: .76rem; color: var(--text2); margin-bottom: 10px; }
+.pay-divider {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .66rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text3);
+  margin: 8px 0;
+}
+.pay-divider::before, .pay-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.pay-qr {
+  max-width: 200px; width: 100%;
+  display: block; margin: 0 auto 10px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+}
+.pay-hint { font-size: .76rem; color: var(--text2); line-height: 1.5; }
+.pay-due { display: flex; justify-content: space-between; align-items: center; margin: 12px 0; padding: 10px 14px; border-radius: 8px; background: var(--accent3); border: 1px solid rgba(242,106,27,.4); }
+.pay-due span:first-child { font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.pay-due span:last-child { font-size: 1.2rem; font-weight: 800; color: var(--accent2); }
+
+.upload-area {
+  border: 2px dashed rgba(148,163,184,.3);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+}
+.upload-area:hover, .upload-area.has-file { border-color: var(--accent); background: var(--accent3); }
+.upload-area input { display: none; }
+.upload-icon { font-size: 1.6rem; margin-bottom: 5px; }
+.upload-text { font-size: .78rem; color: var(--text2); }
+.upload-area.has-file .upload-text { color: var(--accent2); font-weight: 600; }
+.upload-preview { max-width: 100%; max-height: 90px; border-radius: 6px; margin: 7px auto 0; border: 1px solid var(--border); }
+.co-fg.invalid .upload-area { border-color: var(--red); }
+
+/* TIMER INTRO + TIME'S UP */
+.co-card {
+  width: 100%; max-width: 390px;
+  background: #16202E;
+  border: 2px solid rgba(255,255,255,.85);
+  border-radius: 16px;
+  padding: 24px 22px 22px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  transform: scale(.94);
+  transition: transform .2s;
+}
+.co-overlay.open .co-card { transform: scale(1); }
+.co-card-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(186,200,220,.85); margin-bottom: 6px; }
+.co-card h3 { font-size: 1.3rem; font-weight: 800; line-height: 1.25; margin-bottom: 8px; }
+.co-card-clock { font-size: 4.2rem; font-weight: 900; color: var(--timer); line-height: 1.05; font-variant-numeric: tabular-nums; margin: 4px 0 10px; }
+.co-card p { font-size: .82rem; color: var(--text2); }
+.co-card .co-btn { margin-top: 16px; width: 100%; }
+.co-card.timeup .co-card-clock { color: var(--red); }
+
+/* SUCCESS */
+.success-screen { display: none; text-align: center; padding: 48px 16px; }
+.success-screen.visible { display: block; }
+.success-icon { font-size: 3.5rem; margin-bottom: 14px; }
+.success-screen h2 { font-weight: 800; font-size: 1.8rem; letter-spacing: 1px; color: #fff; margin-bottom: 6px; }
+.success-screen p { color: var(--text2); font-size: .88rem; margin-bottom: 4px; }
+.bk-card {
+  background: var(--navy2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 360px;
+  text-align: left;
+}
+.bk-card h3 { font-weight: 800; font-size: .88rem; letter-spacing: .14em; color: var(--accent2); margin-bottom: 10px; }
+.bc-row { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--border2); font-size: .85rem; }
+.bc-row:last-child { border-bottom: none; }
+.bc-row span:first-child { color: var(--text2); }
+.bc-row span:last-child { text-align: right; }
+.btn-new {
+  margin-top: 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .12em;
+  padding: 11px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-new:hover { border-color: var(--accent); color: var(--accent); }
+
+/* FOOTER */
+footer {
+  background: var(--navy2);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 18px 16px;
+  font-size: .74rem;
+  color: var(--text3);
+  line-height: 1.8;
+}
+footer a { color: var(--text2); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+/* ── BOOKING SECTION BG IMAGE ── */
+#bookingSection {
+  position: relative;
+}
+#bookingSection::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--booking-bg, none) center/cover no-repeat;
+  opacity: var(--booking-bg-opacity, 0.07);
+  pointer-events: none;
+  z-index: 0;
+}
+#bookingSection > * {
+  position: relative;
+  z-index: 1;
+}
+#bookingSection > .topbar { position: sticky; z-index: 50; }
+
+/* MOBILE */
+@media (max-width: 680px) {
+  .bk-layout { grid-template-columns: 1fr; }
+  .bk-side { position: static; }
+  .steps .step-label { display: none; }
+  .topbar-tagline { display: none; }
+  .bk-main { padding: 16px 12px 80px; }
+  .topbar { padding: 8px 14px; }
+  .co-overlay { padding: 8px; }
+  .co-row2 { grid-template-columns: 1fr; gap: 0; }
+  .co-step { font-size: .6rem; }
+  .co-card-clock { font-size: 3.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero" id="heroSection">
+  <div class="hero-bg">
+    <div class="carousel-track" id="carouselTrack">
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-logo-badge">
+      <img src="/assets/logo-header.jpg" alt="Paddle Ground" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <span class="hero-logo-badge-fallback" style="display:none">🏓</span>
+    </div>
+    <h1 class="hero-title" data-text="heroTitle">PADDLE GROUND</h1>
+    <p class="hero-sub1" data-text="heroSub1">Pickleball Courts</p>
+    <p class="hero-sub2" data-text="heroSub2">Serve · Rally · Repeat</p>
+    <div class="hero-divider"></div>
+    <div class="hero-cta-icon" onclick="openRulesModal()"><img id="ctaIconImg" src="/assets/pickleball.webp" alt="Pickleball" style="width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4))"></div>
+    <div class="hero-cta-text" onclick="openRulesModal()" data-text="heroCta">TAP TO BOOK</div>
+    <p class="hero-cta-sub" data-text="heroCtaSub">Pick a court, select a date and reserve your slot</p>
+    <p class="hero-location" data-text="heroLocation" style="white-space:pre-wrap">Paddle Ground  ·  3 Pickleball Courts</p>
+  </div>
+
+  <button class="carousel-btn prev" onclick="carouselMove(-1)">‹</button>
+  <button class="carousel-btn next" onclick="carouselMove(1)">›</button>
+  <div class="carousel-dots" id="carouselDots"></div>
+</div>
+
+<!-- ═══ RULES MODAL ═══ -->
+<div class="modal-overlay" id="rulesModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 data-text="rulesTitle">BEFORE YOU BOOK</h2>
+      <p data-text="rulesSubtitle">Booking &amp; Court Rules</p>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:.85rem;color:var(--text2);margin-bottom:14px;line-height:1.6" data-text="rulesIntro">Please take a moment to read these rules. They help every booking start safely and on time.</p>
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>
+          <div class="rule-title" data-text="rule1Title">⏰ Arrive on time</div>
+          <div class="rule-body" data-text="rule1Body">Please arrive 10 minutes early to warm up. Your slot begins and ends at the exact times you booked.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>
+          <div class="rule-title" data-text="rule2Title">🚫 No cancellations after booking</div>
+          <div class="rule-body" data-text="rule2Body">Cancellations must be made at least 6 hours before your scheduled time. No-shows and late cancellations are non-refundable.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div>
+          <div class="rule-title" data-text="rule3Title">🔄 Rebooking policy</div>
+          <div class="rule-body" data-text="rule3Body">Rebooking requests must be made at least 6 hours in advance and are subject to court availability. Contact us to rebook.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">4</div>
+        <div>
+          <div class="rule-title" data-text="rule4Title">🌧️ Weather cancellations</div>
+          <div class="rule-body" data-text="rule4Body">This is an outdoor court. In case of rain or a natural calamity, we will contact you to reschedule at no extra charge.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">5</div>
+        <div>
+          <div class="rule-title" data-text="rule5Title">💰 Payment required to confirm</div>
+          <div class="rule-body" data-text="rule5Body">Upload your GCash or cash payment screenshot to secure your slot. Your booking is only confirmed upon receipt of payment.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">6</div>
+        <div>
+          <div class="rule-title" data-text="rule6Title">🤝 Respect the court &amp; players</div>
+          <div class="rule-body" data-text="rule6Body">Be kind to all players. Vacate the court promptly when your time is up so the next booking can start on time.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeRulesModal()">Cancel</button>
+      <button class="btn-agree" onclick="agreeAndBook()">I Agree &amp; Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BOOKING SECTION ═══ -->
+<div id="bookingSection">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <img src="/assets/logo-header.jpg" alt="Paddle Ground" onerror="this.style.display='none'">
+      <div class="topbar-logo-text">
+        <div class="tl-name" data-text="topbarName">PADDLE GROUND</div>
+        <div class="tl-loc" data-text="topbarSub">Pickleball Courts</div>
+      </div>
+    </div>
+    <div class="topbar-tagline" data-text="topbarTagline">3 Courts · Book Online</div>
+    <div class="topbar-contact" data-show-if="phone" style="display:none">
+      <a data-tel>📞 <span data-text="phone"></span></a>
+    </div>
+  </div>
+
+  <!-- PROMO BANNER -->
+  <div id="promoBanner" style="display:none">
+    <a id="promoBannerLink" href="#" target="_blank" rel="noopener" style="display:block">
+      <img id="promoBannerImg" src="" alt="Promo" style="width:100%;max-height:220px;object-fit:cover;display:block">
+    </a>
+  </div>
+
+  <div class="bk-main">
+
+    <!-- SUCCESS SCREEN -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🎉</div>
+      <h2 data-text="successTitle">BOOKING CONFIRMED!</h2>
+      <p data-text="successMessage">See you on the court! Your spot is secured.</p>
+      <div class="bk-card" id="confirmCard"></div>
+      <p style="font-size:.8rem;color:var(--text3);margin-top:8px;display:none" data-show-if="phone">Questions? Call <strong style="color:var(--text2)" data-text="phone"></strong></p>
+      <button class="btn-new" onclick="resetBooking()">📅 BOOK ANOTHER SLOT</button>
+    </div>
+
+    <div id="bookingLayout">
+      <div class="bk-heading">
+        <h1 data-text="bookingHeading">SELECT YOUR COURT, DATE &amp; TIME</h1>
+        <p data-text="bookingSubheading">Pick a court, choose a date on the calendar, then select your available time slots.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step active" id="step1"><span class="step-num">1</span> <span class="step-label">Court</span></div>
+        <div class="step" id="step2"><span class="step-num">2</span> <span class="step-label">Date &amp; Time</span></div>
+        <div class="step" id="step3"><span class="step-num">3</span> <span class="step-label">Details</span></div>
+        <div class="step" id="step4"><span class="step-num">4</span> <span class="step-label">Payment</span></div>
+      </div>
+
+      <div class="bk-layout">
+        <!-- LEFT: Court + Calendar + Slots -->
+        <div>
+          <div class="panel" style="margin-bottom:14px">
+            <div class="panel-hd">🏓 Choose a Court</div>
+            <div class="panel-bd">
+              <div class="court-grid" id="courtGrid"></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-bottom:14px">
+            <div class="panel-hd">📅 Booking Date</div>
+            <div class="panel-bd">
+              <div class="cal-nav-row">
+                <button class="cal-nav-btn" onclick="prevMonth()" aria-label="Previous month">‹</button>
+                <div class="cal-month-label" id="calMonth"></div>
+                <button class="cal-nav-btn" onclick="nextMonth()" aria-label="Next month">›</button>
+              </div>
+              <div class="cal-grid" id="calGrid"></div>
+            </div>
+          </div>
+
+          <div id="dateSlotsContainer"></div>
+        </div>
+
+        <!-- RIGHT: Selection + Book Now -->
+        <div class="bk-side">
+          <div class="panel">
+            <div class="panel-hd">📋 Your Selection</div>
+            <div class="panel-bd">
+              <div class="outdoor-notice">
+                <strong data-text="noticeTitle">⏱️ 10-Minute Checkout</strong>
+                <span data-text="noticeBody">When you tap Book Now, your slots are reserved for 10 minutes so no one else can take them while you enter your details and upload your payment.</span>
+              </div>
+              <div class="bk-summary" id="bookingSummary">
+                <div class="sum-empty">Select a court, date &amp; time first</div>
+              </div>
+              <div id="selectError" class="error-msg" style="display:none"></div>
+              <button class="btn-submit" id="bookNowBtn" onclick="startCheckout()" disabled>BOOK NOW</button>
+              <div class="hold-note">Your slots are held for 10 minutes once you tap Book Now.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div style="margin-bottom:6px">
+      <img src="/assets/logo-header.jpg" alt="Paddle Ground" style="height:48px;width:48px;object-fit:cover;margin:0 auto 5px;border-radius:50%;opacity:.9">
+    </div>
+    <div><span data-show-if="phone" style="display:none">📞 <a data-tel><span data-text="phone"></span></a> &nbsp;·&nbsp; </span><span data-text="footerHours">Courts Open 1PM–11PM</span></div>
+    <div id="socialLinks" style="margin-top:6px;display:none"></div>
+    <div style="margin-top:6px;opacity:.4" data-text="footerCopyright">© 2026 Paddle Ground Pickleball</div>
+  </footer>
+</div>
+
+<!-- ═══ TIMER INTRO ═══ -->
+<div class="co-overlay" id="timerIntro" onclick="closeTimerIntro()">
+  <div class="co-card">
+    <div class="co-card-eyebrow">10-Minute Checkout</div>
+    <h3>Complete your booking within 10 minutes</h3>
+    <div class="co-card-clock" data-countdown>10:00</div>
+    <p>Keep an eye on the timer at the top of the booking form.</p>
+  </div>
+</div>
+
+<!-- ═══ TIME'S UP ═══ -->
+<div class="co-overlay" id="timeUpModal">
+  <div class="co-card timeup">
+    <div class="co-card-eyebrow">Checkout expired</div>
+    <h3>Time's up!</h3>
+    <div class="co-card-clock">00:00</div>
+    <p>Your 10 minutes ran out, so your slots were released for other players. Please select your slots again to book.</p>
+    <button class="co-btn primary" onclick="closeTimeUp()">Choose Slots Again</button>
+  </div>
+</div>
+
+<!-- ═══ CHECKOUT ═══ -->
+<div class="co-overlay" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="co-box">
+    <div class="co-timerbar" id="coTimerBar">
+      <span>Complete your booking within</span>
+      <span class="co-timer" data-countdown>10:00</span>
+    </div>
+    <div class="co-steps">
+      <div class="co-step done"><div class="co-dot">1</div>Court</div>
+      <div class="co-step done"><div class="co-dot">2</div>Date &amp; Time</div>
+      <div class="co-step current" id="coStep3"><div class="co-dot">3</div>Details</div>
+      <div class="co-step" id="coStep4"><div class="co-dot">4</div>Payment</div>
+    </div>
+    <div class="co-body" id="coBody">
+      <div id="coPageDetails">
+        <div class="co-row2">
+          <div class="co-fg" id="fgName"><label for="custName">Full Name</label><input type="text" id="custName" placeholder="First Name / Last Name" maxlength="60" autocomplete="name"><div class="co-err">Please enter your full name.</div></div>
+          <div class="co-fg" id="fgPhone"><label for="custPhone">Contact Number</label><input type="tel" id="custPhone" placeholder="09XX XXX XXXX" maxlength="20" autocomplete="tel"><div class="co-err">Please enter your contact number.</div></div>
+        </div>
+        <div class="co-fg" id="fgEmail"><label for="custEmail">Email Address <small>(optional)</small></label><input type="email" id="custEmail" placeholder="youremail@gmail.com" maxlength="120" autocomplete="email"><div class="co-err">Please enter a valid email address.</div></div>
+        <div class="co-fg"><label for="custNotes">Notes <small>(optional)</small></label><textarea id="custNotes" rows="2" placeholder="Number of players, requests..."></textarea></div>
+        <div class="co-summary" id="coSummary"></div>
+      </div>
+      <div id="coPagePayment" style="display:none">
+        <div class="pay-box">
+          <div class="pay-title" data-text="payTitle">💰 Pay via GCash · ₱250/Hour</div>
+          <div class="pay-number-box" data-show-if="gcashNumber" style="display:none">
+            <span class="pay-lbl">GCash Number</span>
+            <a class="pay-val" data-text="gcashNumber" data-tel-of="gcashNumber"></a>
+          </div>
+          <div class="pay-name" data-show-if="gcashName" style="display:none">Account Name: <strong data-text="gcashName"></strong></div>
+          <div class="pay-divider" id="payQrDivider" style="display:none"><span>or scan QR</span></div>
+          <img alt="GCash QR Code" class="pay-qr" style="display:none">
+          <div class="pay-hint" data-text="payHint">After paying, upload your receipt screenshot below to secure your slot.</div>
+        </div>
+        <div class="pay-due"><span>Total Due</span><span id="payDue">₱0</span></div>
+        <div class="co-fg" id="fgUpload">
+          <label>Payment Screenshot</label>
+          <div class="upload-area" id="uploadArea" onclick="document.getElementById('payFile').click()">
+            <input type="file" id="payFile" accept="image/*" onchange="handleFileSelect(event)">
+            <div class="upload-icon">📸</div>
+            <div class="upload-text">Tap to upload GCash / Maya / Bank transfer screenshot</div>
+            <img id="uploadPreview" class="upload-preview" style="display:none" alt="Payment screenshot preview">
+          </div>
+          <div class="co-err">Please upload your payment screenshot to secure your slot.</div>
+        </div>
+      </div>
+      <div id="errorMsg" class="error-msg" style="display:none"></div>
+    </div>
+    <div class="co-foot">
+      <button class="co-btn ghost" id="coBackBtn" onclick="checkoutBack()">✕ Cancel</button>
+      <button class="co-btn primary" id="coNextBtn" onclick="checkoutNext()">Next →</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="/site-content.js"></script>
+<script>
+const API='/api/bookings';
+const COURTS=[1,2,3];
+let PRICE_PER_HOUR=250;
+const OPEN_HOUR=13;
+const CLOSE_HOUR=23;
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+let viewYear=new Date().getFullYear(),viewMonth=new Date().getMonth();
+let activeCourt=1;
+let selectedDates=[];            // sorted "YYYY-MM-DD"
+let selections=new Map();        // "date|court" -> Set of start hours
+let dayBookings={};              // date -> bookings/blocks (any loaded month)
+let dayLocks={};                 // date -> other customers' checkout locks
+let paymentBase64=null,paymentType=null;
+let customerOpenHour=OPEN_HOUR;
+let customerCloseHour=CLOSE_HOUR;
+let checkout=null;               // {token, deadline, page, submitting}
+
+/* ── MODAL ── */
+function openRulesModal(){
+  document.getElementById('rulesModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeRulesModal(){
+  document.getElementById('rulesModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function agreeAndBook(){
+  closeRulesModal();
+  document.getElementById('heroSection').style.display='none';
+  const bs=document.getElementById('bookingSection');
+  bs.classList.add('visible');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('rulesModal').addEventListener('click',function(e){
+  if(e.target===this)closeRulesModal();
+});
+
+/* ── SETTINGS ── */
+async function loadSettings(){
+  try{
+    const r=await fetch(`${API}/settings`);
+    const d=await r.json();
+    if(d.settings){
+      customerOpenHour=d.settings.customerOpenHour??OPEN_HOUR;
+      customerCloseHour=d.settings.customerCloseHour??CLOSE_HOUR;
+    }
+  }catch(e){}
+}
+
+/* ── CAROUSEL ── */
+let carouselIndex=0;
+let carouselCount=0;
+let carouselPaused=false;
+
+function initCarousel(count){
+  carouselCount=count;
+  document.querySelectorAll('.carousel-btn').forEach(b=>b.style.display=count>1?'':'none');
+  document.getElementById('carouselDots').style.display=count>1?'':'none';
+  const dotsEl=document.getElementById('carouselDots');
+  dotsEl.innerHTML='';
+  for(let i=0;i<count;i++){
+    const dot=document.createElement('div');
+    dot.className='carousel-dot'+(i===0?' active':'');
+    dot.onclick=()=>carouselGo(i);
+    dotsEl.appendChild(dot);
+  }
+  carouselIndex=0;
+  document.getElementById('carouselTrack').style.transform='translateX(0)';
+}
+function carouselMove(dir){carouselGo(carouselIndex+dir);}
+function carouselGo(i){
+  if(carouselCount<1)return;
+  if(i<0)i=carouselCount-1;
+  if(i>=carouselCount)i=0;
+  carouselIndex=i;
+  document.getElementById('carouselTrack').style.transform=`translateX(-${i*100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d,idx)=>d.classList.toggle('active',idx===i));
+}
+document.addEventListener('visibilitychange',()=>{carouselPaused=document.hidden;});
+setInterval(()=>{if(!carouselPaused&&carouselCount>1)carouselMove(1);},4000);
+
+async function initHero(){
+  try{
+    const r=await fetch(`${API}/hero-settings`);
+    const d=await r.json();
+    const s=d.settings;
+    if(!s||!s.useCustomImages||!s.images||!s.images.length){
+      initCarousel(document.querySelectorAll('.carousel-slide').length);
+      return;
+    }
+    const track=document.getElementById('carouselTrack');
+    if(s.mode==='static'){
+      track.innerHTML=`<div class="carousel-slide"><img src="${s.images[0]}" alt="Paddle Ground Pickleball" loading="eager" fetchpriority="high"></div>`;
+      document.getElementById('carouselDots').style.display='none';
+      document.querySelectorAll('.carousel-btn').forEach(b=>b.style.display='none');
+      initCarousel(1);
+    }else{
+      track.innerHTML=s.images.map((src,i)=>`<div class="carousel-slide"><img src="${src}" alt="Paddle Ground Pickleball photo ${i+1}" loading="${i===0?'eager':'lazy'}" ${i===0?'fetchpriority="high"':'decoding="async"'}></div>`).join('');
+      initCarousel(s.images.length);
+    }
+  }catch(e){
+    initCarousel(document.querySelectorAll('.carousel-slide').length);
+  }
+}
+
+/* ── SITE TEXT & SOCIAL LINKS (edited in admin) ── */
+function applySiteText(saved){
+  const C=window.SITE_CONTENT;
+  const vals={...C.defaults,...((saved&&saved.text)||{})};
+  const price=Number(vals.pricePerHour);
+  if(price>0)PRICE_PER_HOUR=price;
+  vals.pricePerHour=PRICE_PER_HOUR.toLocaleString();
+  document.title=C.render(vals.siteTitle,vals);
+  document.querySelectorAll('[data-text]').forEach(el=>{el.textContent=C.render(vals[el.dataset.text],vals);});
+  document.querySelectorAll('[data-show-if]').forEach(el=>{el.style.display=vals[el.dataset.showIf]?'':'none';});
+  const tel=v=>'tel:'+String(v||'').replace(/[^\d+]/g,'');
+  document.querySelectorAll('a[data-tel]').forEach(a=>a.href=tel(vals.phone));
+  document.querySelectorAll('a[data-tel-of]').forEach(a=>a.href=tel(vals[a.dataset.telOf]));
+  const social=(saved&&saved.social)||{};
+  const box=document.getElementById('socialLinks');
+  box.innerHTML='';
+  C.social.filter(x=>C.isSafeUrl(social[x.key])).forEach((x,i)=>{
+    if(i)box.append('  ·  ');
+    const a=document.createElement('a');
+    a.href=social[x.key].trim();a.target='_blank';a.rel='noopener';a.textContent=x.label;
+    box.appendChild(a);
+  });
+  box.style.display=box.children.length?'':'none';
+  renderDateSlotsContainer();updateSummary();
+}
+async function initSiteText(){
+  let cached=null;
+  try{cached=JSON.parse(localStorage.getItem('pg_site_text')||'null');}catch(e){}
+  applySiteText(cached);
+  try{
+    const r=await fetch(`${API}/site-text`);
+    const d=await r.json();
+    applySiteText(d);
+    try{localStorage.setItem('pg_site_text',JSON.stringify(d));}catch(e){}
+  }catch(e){}
+}
+
+/* ── SITE IMAGES (logo, background, QR, icon — set in admin) ── */
+async function initSiteImages(){
+  try{
+    const r=await fetch(`${API}/site-images`);
+    const img=(await r.json()).images||{};
+    const root=document.documentElement.style;
+    if(img.logo){
+      document.querySelectorAll('img[src="/assets/logo-header.jpg"]').forEach(el=>{el.style.display='';el.src=img.logo;});
+      document.getElementById('siteFavicon').href=img.logo;
+    }
+    if(img.qr){
+      document.querySelectorAll('.pay-qr').forEach(el=>{el.src=img.qr;el.style.display='';});
+      document.getElementById('payQrDivider').style.display='';
+    }
+    if(img.ctaIcon)document.getElementById('ctaIconImg').src=img.ctaIcon;
+    if(img.backgroundHidden)root.setProperty('--booking-bg','none');
+    else if(img.background)root.setProperty('--booking-bg',`url("${img.background}")`);
+    if(typeof img.backgroundOpacity==='number')root.setProperty('--booking-bg-opacity',img.backgroundOpacity);
+  }catch(e){}
+}
+
+/* ── UTILS ── */
+function formatHour(h){
+  const hrs=Math.floor(h),period=hrs<12||hrs===24?'AM':'PM';
+  const d=hrs>12?hrs-12:(hrs===0?12:hrs);
+  return `${d}:00 ${period}`;
+}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function dateLabel(dateStr,opts={weekday:'short',month:'short',day:'numeric'}){
+  const[y,m,d]=dateStr.split('-');
+  return new Date(y,m-1,d).toLocaleDateString('en-PH',opts);
+}
+function peso(n){return '₱'+n.toLocaleString();}
+function selKey(date,court){return `${date}|${court}`;}
+
+/* ── AVAILABILITY DATA ── */
+// Bookings made before courts existed count as Court 1. A block without a court closes every court.
+function coversCourt(b,court){
+  if(b.type==='block'&&!b.court)return true;
+  return (Number(b.court)||1)===court;
+}
+// null when free, otherwise the label to show on the slot.
+function slotStatus(date,court,h){
+  const end=h+1;
+  const b=(dayBookings[date]||[]).find(b=>coversCourt(b,court)&&h<b.endHour&&end>b.startHour);
+  if(b)return b.type==='block'?'Blocked':b.type==='open_play'?'Open Play':'Booked';
+  if((dayLocks[date]||[]).some(l=>l.court===court&&h<l.endHour&&end>l.startHour))return 'Reserved';
+  return null;
+}
+
+async function loadMonth(month){
+  const exclude=checkout?`&exclude=${encodeURIComponent(checkout.token)}`:'';
+  const [bRes,lRes]=await Promise.all([
+    fetch(`${API}?month=${month}`).then(r=>r.json()).catch(()=>null),
+    fetch(`${API}/locks?month=${month}${exclude}`).then(r=>r.json()).catch(()=>null),
+  ]);
+  if(bRes){
+    Object.keys(dayBookings).filter(d=>d.startsWith(month)).forEach(d=>delete dayBookings[d]);
+    (bRes.bookings||[]).forEach(b=>{
+      if(b.status==='cancelled'||b.status==='on_hold')return;
+      (dayBookings[b.date]=dayBookings[b.date]||[]).push(b);
+    });
+  }
+  if(lRes){
+    Object.keys(dayLocks).filter(d=>d.startsWith(month)).forEach(d=>delete dayLocks[d]);
+    (lRes.locks||[]).forEach(l=>{(dayLocks[l.date]=dayLocks[l.date]||[]).push(l);});
+  }
+}
+function viewMonthStr(){return `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;}
+
+// Reload every month that's on screen or selected, then drop selected slots that got taken.
+async function refreshAvailability(){
+  const months=new Set([viewMonthStr(),...selectedDates.map(d=>d.slice(0,7))]);
+  await Promise.all([...months].map(loadMonth));
+  let dropped=0;
+  for(const[key,slots] of selections){
+    const[date,court]=key.split('|');
+    for(const h of [...slots]){if(slotStatus(date,Number(court),h)){slots.delete(h);dropped++;}}
+  }
+  renderAll();
+  return dropped;
+}
+
+/* ── COURTS ── */
+function renderCourts(){
+  const grid=document.getElementById('courtGrid');
+  grid.innerHTML='';
+  COURTS.forEach(c=>{
+    let count=0;
+    for(const[key,slots] of selections)if(key.endsWith('|'+c))count+=slots.size;
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='court-btn'+(c===activeCourt?' active':'');
+    b.setAttribute('aria-pressed',c===activeCourt);
+    b.innerHTML=`<div class="cb-label">Court</div><div class="cb-num">${c}</div><div class="cb-count${count?' show':''}">${count}</div>`;
+    b.addEventListener('click',()=>{activeCourt=c;renderAll();});
+    grid.appendChild(b);
+  });
+}
+
+/* ── CALENDAR ── */
+function renderCalendarUI(){
+  document.getElementById('calMonth').textContent=`${MONTHS[viewMonth]} ${viewYear}`;
+  const grid=document.getElementById('calGrid');
+  grid.innerHTML='';
+  DAYS.forEach(d=>{const e=document.createElement('div');e.className='cal-dow';e.textContent=d;grid.appendChild(e);});
+  const firstDay=new Date(viewYear,viewMonth,1).getDay();
+  const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
+  const today=new Date();
+  const hoursPerDay=customerCloseHour-customerOpenHour;
+  for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-day empty';grid.appendChild(e);}
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const cellDate=new Date(viewYear,viewMonth,d);
+    const isToday=d===today.getDate()&&viewMonth===today.getMonth()&&viewYear===today.getFullYear();
+    const isPast=cellDate<new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    const el=document.createElement('div');
+    el.className='cal-day'+(isToday?' today':'')+(isPast?' past':'')+(selectedDates.includes(dateStr)?' selected':'');
+    const num=document.createElement('span');num.textContent=d;el.appendChild(num);
+    // Dot = something booked on the chosen court; red = that court is fully booked.
+    let taken=0;
+    for(let h=customerOpenHour;h<customerCloseHour;h++)if(slotStatus(dateStr,activeCourt,h))taken++;
+    if(taken>0){
+      el.classList.add('has-bookings');
+      if(taken>=hoursPerDay)el.classList.add('full-day');
+      const dot=document.createElement('div');dot.className='dot';el.appendChild(dot);
+    }
+    if(!isPast)el.addEventListener('click',()=>toggleDate(dateStr));
+    grid.appendChild(el);
+  }
+}
+
+async function renderCalendar(){
+  await loadMonth(viewMonthStr());
+  renderCalendarUI();
+}
+function prevMonth(){viewMonth--;if(viewMonth<0){viewMonth=11;viewYear--;}renderCalendar();}
+function nextMonth(){viewMonth++;if(viewMonth>11){viewMonth=0;viewYear++;}renderCalendar();}
+
+function toggleDate(dateStr){
+  if(selectedDates.includes(dateStr)){removeDate(dateStr);return;}
+  selectedDates.push(dateStr);selectedDates.sort();
+  renderAll();
+  if(window.innerWidth<681){
+    setTimeout(()=>document.getElementById('dateSlotsContainer').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  }
+}
+function removeDate(dateStr){
+  selectedDates=selectedDates.filter(d=>d!==dateStr);
+  COURTS.forEach(c=>selections.delete(selKey(dateStr,c)));
+  renderAll();
+}
+
+/* ── SLOT RENDER ── */
+function renderDateSlotsContainer(){
+  const container=document.getElementById('dateSlotsContainer');
+  if(!selectedDates.length){
+    container.innerHTML=`<div class="panel"><div class="panel-hd">⏰ Available Times</div><div class="panel-bd"><div class="no-date-msg"><div class="big">👆</div>Select a date above to see available slots</div></div></div>`;
+    return;
+  }
+  container.innerHTML='';
+  for(const dateStr of selectedDates){
+    const slots=selections.get(selKey(dateStr,activeCourt))||new Set();
+    let availCount=0;
+    for(let h=customerOpenHour;h<customerCloseHour;h++)if(!slotStatus(dateStr,activeCourt,h))availCount++;
+
+    const panel=document.createElement('div');
+    panel.className='panel date-slot-panel';
+
+    const hd=document.createElement('div');
+    hd.className='panel-hd';
+    hd.style.justifyContent='space-between';
+    hd.innerHTML=`<span style="display:flex;align-items:center;gap:8px">⏰ ${dateLabel(dateStr)} <span class="slot-court-tag">Court ${activeCourt}</span></span><button aria-label="Remove date" style="background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.65);border-radius:6px;cursor:pointer;padding:2px 9px;font-size:.82rem">✕</button>`;
+    hd.querySelector('button').addEventListener('click',()=>removeDate(dateStr));
+
+    const bd=document.createElement('div');
+    bd.className='panel-bd';
+
+    const badge=document.createElement('div');
+    badge.className='avail-badge';
+    badge.textContent=`${availCount} available on Court ${activeCourt}`;
+    bd.appendChild(badge);
+
+    const grid=document.createElement('div');
+    grid.className='time-grid';
+
+    for(let h=customerOpenHour;h<customerCloseHour;h++){
+      const end=h+1;
+      const status=slotStatus(dateStr,activeCourt,h);
+      const isSelected=slots.has(h);
+
+      const el=document.createElement('div');
+      el.className='time-slot'+(status?' taken':'')+(status==='Reserved'?' reserved':'')+(isSelected?' selected':'');
+
+      const lbl=document.createElement('div');lbl.className='ts-label';
+      lbl.textContent=`${formatHour(h)} – ${formatHour(end)}`;
+      el.appendChild(lbl);
+
+      if(status){
+        const sl=document.createElement('div');sl.className='ts-taken-label';
+        sl.textContent=status==='Reserved'?'Reserved · checking out':status;
+        el.appendChild(sl);
+      }else{
+        const pr=document.createElement('div');pr.className='ts-price';pr.textContent=isSelected?'✓ Selected':peso(PRICE_PER_HOUR);
+        el.appendChild(pr);
+        el.addEventListener('click',()=>toggleSlot(dateStr,activeCourt,h));
+      }
+      grid.appendChild(el);
+    }
+    bd.appendChild(grid);
+    panel.appendChild(hd);
+    panel.appendChild(bd);
+    container.appendChild(panel);
+  }
+}
+
+function toggleSlot(dateStr,court,h){
+  const key=selKey(dateStr,court);
+  if(!selections.has(key))selections.set(key,new Set());
+  const slots=selections.get(key);
+  if(slots.has(h))slots.delete(h);else slots.add(h);
+  if(!slots.size)selections.delete(key);
+  document.getElementById('selectError').style.display='none';
+  renderAll();
+}
+
+/* ── SUMMARY ── */
+function slotsToRanges(slots){
+  const sorted=[...slots].sort((a,b)=>a-b);
+  if(!sorted.length)return[];
+  const ranges=[];let rs=sorted[0],prev=sorted[0];
+  for(let i=1;i<sorted.length;i++){
+    if(sorted[i]===prev+1){prev=sorted[i];}
+    else{ranges.push([rs,prev+1]);rs=sorted[i];prev=sorted[i];}
+  }
+  ranges.push([rs,prev+1]);
+  return ranges;
+}
+
+// Selected slots grouped by date, then court: [{date, courts:[{court, ranges, hours}]}]
+function selectionGroups(){
+  const groups=[];
+  for(const date of selectedDates){
+    const courts=COURTS
+      .map(c=>{const s=selections.get(selKey(date,c));return s&&s.size?{court:c,ranges:slotsToRanges(s),hours:s.size}:null;})
+      .filter(Boolean);
+    if(courts.length)groups.push({date,courts});
+  }
+  return groups;
+}
+function totalHours(){let t=0;for(const s of selections.values())t+=s.size;return t;}
+function selectionItems(){
+  return selectionGroups().flatMap(g=>g.courts.flatMap(c=>c.ranges.map(([s,e])=>({date:g.date,court:c.court,startHour:s,endHour:e}))));
+}
+
+function updateSummary(){
+  const el=document.getElementById('bookingSummary');
+  const groups=selectionGroups();
+  if(!groups.length){el.innerHTML='<div class="sum-empty">Select a court, date &amp; time first</div>';return;}
+  let html='';
+  for(const g of groups){
+    html+=`<div class="sum-group"><div class="sum-row" style="margin-bottom:3px"><span style="font-weight:700;color:#fff">📅 ${dateLabel(g.date)}</span></div>`;
+    for(const c of g.courts){
+      html+=c.ranges.map(r=>`<div class="sum-row"><span style="padding-left:8px">🏓 Court ${c.court} · ${formatHour(r[0])} – ${formatHour(r[1])}</span><span>${r[1]-r[0]}h</span></div>`).join('');
+    }
+    html+='</div>';
+  }
+  const hrs=totalHours();
+  html+=`<div class="sum-row"><span>Total Hours</span><span>${hrs}h</span></div><div class="sum-row total"><span>Total Due</span><span>${peso(hrs*PRICE_PER_HOUR)}</span></div>`;
+  el.innerHTML=html;
+}
+
+function updateSteps(){
+  const hrs=totalHours();
+  document.getElementById('step1').className='step active';
+  document.getElementById('step2').className='step'+(selectedDates.length?' active':'');
+  document.getElementById('step3').className='step'+(checkout?' active':'');
+  document.getElementById('step4').className='step'+(checkout&&checkout.page==='payment'?' active':'');
+  document.getElementById('bookNowBtn').disabled=hrs===0;
+}
+
+function renderAll(){
+  renderCourts();renderCalendarUI();renderDateSlotsContainer();updateSummary();updateSteps();
+}
+
+/* ── CHECKOUT & 10-MINUTE HOLD ── */
+async function startCheckout(){
+  const items=selectionItems();
+  if(!items.length)return;
+  const btn=document.getElementById('bookNowBtn');
+  const errEl=document.getElementById('selectError');
+  errEl.style.display='none';
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>RESERVING...';
+  try{
+    const r=await fetch(`${API}/lock`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({items})});
+    const d=await r.json();
+    if(!r.ok){
+      const dropped=r.status===409?await refreshAvailability():0;
+      errEl.textContent=(d.error||'Could not reserve your slots. Please try again.')+(dropped?` ${dropped} slot${dropped>1?'s were':' was'} removed from your selection.`:'');
+      errEl.style.display='block';
+      return;
+    }
+    // Count down against the server's clock so a wrong phone clock doesn't matter.
+    checkout={token:d.token,deadline:Date.now()+(d.expiresAt-d.serverNow),page:'details',submitting:false};
+    try{sessionStorage.setItem('pg_lock',d.token);}catch(e){}
+    openCheckout();
+  }catch(e){
+    errEl.textContent='Network error. Please try again.';errEl.style.display='block';
+  }finally{
+    btn.textContent='BOOK NOW';
+    updateSteps();
+  }
+}
+
+function releaseLock(token){
+  if(!token)return Promise.resolve();
+  try{sessionStorage.removeItem('pg_lock');}catch(e){}
+  return fetch(`${API}/lock/release`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token}),keepalive:true}).catch(()=>{});
+}
+
+function openCheckout(){
+  document.getElementById('errorMsg').style.display='none';
+  document.querySelectorAll('.co-fg.invalid').forEach(el=>el.classList.remove('invalid'));
+  showCheckoutPage('details');
+  renderCheckoutSummary();
+  tickTimer();
+  document.getElementById('checkoutModal').classList.add('open');
+  document.getElementById('timerIntro').classList.add('open');
+  document.body.style.overflow='hidden';
+  clearTimeout(openCheckout.introTimer);
+  openCheckout.introTimer=setTimeout(closeTimerIntro,3500);
+  updateSteps();
+}
+function closeTimerIntro(){
+  document.getElementById('timerIntro').classList.remove('open');
+  if(checkout&&checkout.page==='details')setTimeout(()=>document.getElementById('custName').focus(),150);
+}
+
+function closeCheckout(){
+  document.getElementById('checkoutModal').classList.remove('open');
+  document.getElementById('timerIntro').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function cancelCheckout(){
+  if(!checkout)return;
+  releaseLock(checkout.token);
+  checkout=null;
+  closeCheckout();
+  updateSteps();
+}
+
+async function expireCheckout(){
+  const token=checkout.token;
+  checkout=null;
+  closeCheckout();
+  document.getElementById('timeUpModal').classList.add('open');
+  document.body.style.overflow='hidden';
+  // Release first, or the refresh would still see this customer's own lock as someone else's.
+  await releaseLock(token);
+  refreshAvailability();
+}
+function closeTimeUp(){
+  document.getElementById('timeUpModal').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('dateSlotsContainer').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function tickTimer(){
+  if(!checkout)return;
+  const left=Math.max(0,checkout.deadline-Date.now());
+  const secs=Math.ceil(left/1000);
+  const txt=`${String(Math.floor(secs/60)).padStart(2,'0')}:${String(secs%60).padStart(2,'0')}`;
+  document.querySelectorAll('[data-countdown]').forEach(el=>{if(el.textContent!==txt)el.textContent=txt;});
+  document.getElementById('coTimerBar').classList.toggle('urgent',secs<=120);
+  // An upload already in flight is allowed to finish; the server still checks for conflicts.
+  if(left<=0&&!checkout.submitting)expireCheckout();
+}
+setInterval(tickTimer,250);
+
+function showCheckoutPage(page){
+  checkout.page=page;
+  document.getElementById('coPageDetails').style.display=page==='details'?'':'none';
+  document.getElementById('coPagePayment').style.display=page==='payment'?'':'none';
+  document.getElementById('coStep3').className='co-step '+(page==='details'?'current':'done');
+  document.getElementById('coStep4').className='co-step'+(page==='payment'?' current':'');
+  document.getElementById('coBackBtn').textContent=page==='details'?'✕ Cancel':'← Back';
+  const next=document.getElementById('coNextBtn');
+  next.disabled=false;
+  next.textContent=page==='details'?'Next →':'Confirm Booking ✓';
+  document.getElementById('coBody').scrollTop=0;
+  updateSteps();
+}
+
+function renderCheckoutSummary(){
+  const groups=selectionGroups();
+  const hrs=totalHours();
+  let html='<h4>Booking Summary</h4>';
+  for(const g of groups){
+    html+=`<div class="co-sum-date"><span>${dateLabel(g.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'})}</span><span>${g.courts.length} COURT${g.courts.length>1?'S':''}</span></div>`;
+    for(const c of g.courts){
+      html+=`<div class="co-sum-court"><span>Court ${c.court}</span><span>${c.ranges.map(r=>`${formatHour(r[0])} - ${formatHour(r[1])}`).join('<br>')}</span></div>`;
+      html+=`<div class="co-sum-rate">${peso(PRICE_PER_HOUR)}/hr × ${c.hours} hr${c.hours>1?'s':''}</div>`;
+    }
+  }
+  html+=`<div class="co-sum-line"><span>Booking fee</span><span>Free</span></div>`;
+  html+=`<div class="co-sum-line co-sum-total"><span>TOTAL</span><span>${peso(hrs*PRICE_PER_HOUR)}.00</span></div>`;
+  document.getElementById('coSummary').innerHTML=html;
+  document.getElementById('payDue').textContent=`${peso(hrs*PRICE_PER_HOUR)}.00`;
+}
+
+function setInvalid(id,bad){document.getElementById(id).classList.toggle('invalid',bad);return bad;}
+['custName','custPhone','custEmail'].forEach(id=>document.getElementById(id).addEventListener('input',e=>e.target.closest('.co-fg').classList.remove('invalid')));
+
+function checkoutBack(){
+  if(!checkout)return;
+  if(checkout.page==='payment'){showCheckoutPage('details');return;}
+  cancelCheckout();
+}
+function checkoutNext(){
+  if(!checkout)return;
+  document.getElementById('errorMsg').style.display='none';
+  if(checkout.page==='details'){
+    const name=document.getElementById('custName').value.trim();
+    const phone=document.getElementById('custPhone').value.trim();
+    const email=document.getElementById('custEmail').value.trim();
+    const bad=[
+      setInvalid('fgName',!name),
+      setInvalid('fgPhone',phone.replace(/\D/g,'').length<7),
+      setInvalid('fgEmail',!!email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)),
+    ];
+    if(bad.some(Boolean)){document.querySelector('.co-fg.invalid input').focus();return;}
+    showCheckoutPage('payment');
+    return;
+  }
+  submitBooking();
+}
+
+/* ── FILE UPLOAD ── */
+function compressImage(file){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>{
+      const MAX=1024;let w=img.width,h=img.height;
+      if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+      const canvas=document.createElement('canvas');
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      resolve(canvas.toDataURL('image/jpeg',0.7));
+    };
+    img.src=URL.createObjectURL(file);
+  });
+}
+
+async function handleFileSelect(e){
+  const file=e.target.files[0];if(!file)return;
+  document.querySelector('#uploadArea .upload-text').textContent='Processing...';
+  try{
+    paymentBase64=await compressImage(file);
+    paymentType='image/jpeg';
+    document.getElementById('uploadArea').classList.add('has-file');
+    document.getElementById('fgUpload').classList.remove('invalid');
+    document.querySelector('#uploadArea .upload-text').textContent=`✓ ${file.name}`;
+    const prev=document.getElementById('uploadPreview');prev.src=paymentBase64;prev.style.display='block';
+  }catch(err){
+    document.querySelector('#uploadArea .upload-text').textContent='Failed to process image. Try again.';
+  }
+}
+
+/* ── SUBMIT ── */
+async function submitBooking(){
+  const name=document.getElementById('custName').value.trim();
+  const phone=document.getElementById('custPhone').value.trim();
+  const email=document.getElementById('custEmail').value.trim();
+  const notes=document.getElementById('custNotes').value.trim();
+  if(setInvalid('fgUpload',!paymentBase64))return;
+  const items=selectionItems();
+  if(!items.length)return;
+
+  const btn=document.getElementById('coNextBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Securing...';
+  document.getElementById('coBackBtn').disabled=true;
+  checkout.submitting=true;
+  const submitted=[];
+  const txnId=Date.now().toString(36)+Math.random().toString(36).slice(2,10); // groups this checkout's bookings into one transaction
+  try{
+    for(const it of items){
+      const first=!submitted.length;
+      const res=await fetch(API,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({txnId,lockToken:checkout.token,name,phone,email,notes,...it,paymentData:first?paymentBase64:null,paymentType:first?paymentType:null})
+      });
+      const data=await res.json();
+      if(!res.ok){
+        showError((data.error||`Couldn't book Court ${it.court}, ${formatHour(it.startHour)}–${formatHour(it.endHour)} on ${dateLabel(it.date)}.`)+(submitted.length?` ${submitted.length} of your slots were already booked — please contact us.`:''));
+        return;
+      }
+      submitted.push(data.booking);
+    }
+    const token=checkout.token;
+    checkout=null;
+    releaseLock(token);
+    closeCheckout();
+    showSuccess(submitted,name,phone);
+  }catch(e){
+    showError('Network error. Please try again.');
+  }finally{
+    if(checkout){
+      checkout.submitting=false;
+      btn.disabled=false;btn.textContent='Confirm Booking ✓';
+      document.getElementById('coBackBtn').disabled=false;
+      tickTimer();
+    }
+  }
+}
+
+function showError(msg){const el=document.getElementById('errorMsg');el.textContent=msg;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+function showSuccess(bookings,name,phone){
+  document.getElementById('bookingLayout').style.display='none';
+  const sc=document.getElementById('successScreen');sc.classList.add('visible');
+  const hrs=bookings.reduce((s,b)=>s+(b.endHour-b.startHour),0);
+  const rows=bookings.map(b=>`<div class="bc-row"><span>📅 ${dateLabel(b.date)} · Court ${b.court}</span><span>${formatHour(b.startHour)}–${formatHour(b.endHour)}</span></div>`).join('');
+  document.getElementById('confirmCard').innerHTML=`
+    <h3>🏓 BOOKING DETAILS</h3>
+    <div class="bc-row"><span>Name</span><span>${escapeHtml(name)}</span></div>
+    <div class="bc-row"><span>Phone</span><span>${escapeHtml(phone)}</span></div>
+    ${rows}
+    <div class="bc-row"><span>Total Duration</span><span>${hrs}h</span></div>
+    <div class="bc-row" style="color:var(--accent2);font-weight:700"><span>Total Due</span><span>${peso(hrs*PRICE_PER_HOUR)}</span></div>
+    <div class="bc-row"><span>Status</span><span style="color:#4ade80">✅ Confirmed</span></div>
+  `;
+  document.getElementById('step3').className='step active';
+  document.getElementById('step4').className='step active';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetBooking(){
+  selectedDates=[];selections=new Map();paymentBase64=null;paymentType=null;
+  ['custName','custPhone','custEmail','custNotes','payFile'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('uploadArea').classList.remove('has-file');
+  document.querySelector('#uploadArea .upload-text').textContent='Tap to upload GCash / Maya / Bank transfer screenshot';
+  document.getElementById('uploadPreview').style.display='none';
+  document.getElementById('successScreen').classList.remove('visible');
+  document.getElementById('bookingLayout').style.display='block';
+  refreshAvailability();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+async function initBanner(){
+  try{
+    const r=await fetch(`${API}/banner`);
+    const d=await r.json();
+    const b=d.banner;
+    if(!b||!b.active||!b.imageData)return;
+    const wrap=document.getElementById('promoBanner');
+    const img=document.getElementById('promoBannerImg');
+    const lnk=document.getElementById('promoBannerLink');
+    img.src=b.imageData;
+    if(b.link){lnk.href=b.link;}else{lnk.style.pointerEvents='none';}
+    wrap.style.display='block';
+  }catch(e){}
+}
+
+// A checkout left open by a page reload can't be resumed, so free its slots right away.
+try{const stale=sessionStorage.getItem('pg_lock');if(stale)releaseLock(stale);}catch(e){}
+
+// Keep "Booked"/"Reserved" labels fresh while someone is choosing slots.
+setInterval(()=>{
+  if(!document.hidden&&!checkout&&document.getElementById('bookingSection').classList.contains('visible'))refreshAvailability();
+},30000);
+
+initSiteImages();
+renderAll();
+(async()=>{await Promise.all([loadSettings(),initHero(),initBanner(),initSiteText()]);renderCalendar();})();
+</script>
+</body>
+</html>
