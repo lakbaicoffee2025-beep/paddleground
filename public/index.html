@@ -107,9 +107,6 @@ button { font-family: var(--font); }
   object-fit: cover;
   border-radius: 50%;
 }
-.hero-logo-badge-fallback {
-  font-size: 2.4rem;
-}
 .hero-title {
   font-weight: 900;
   font-style: italic;
@@ -891,8 +888,7 @@ footer a:hover { color: var(--accent); }
 
   <div class="hero-content">
     <div class="hero-logo-badge">
-      <img src="/assets/logo-header.jpg" alt="Paddle Ground" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-      <span class="hero-logo-badge-fallback" style="display:none">🏓</span>
+      <img src="/assets/logo-header.jpg" alt="Paddle Ground" onerror="this.style.display='none'">
     </div>
     <h1 class="hero-title" data-text="heroTitle">PADDLE GROUND</h1>
     <p class="hero-sub1" data-text="heroSub1">Pickleball Courts</p>
