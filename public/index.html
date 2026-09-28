@@ -1116,8 +1116,6 @@ footer a:hover { color: var(--accent); }
           <div class="co-fg" id="fgName"><label for="custName">Full Name</label><input type="text" id="custName" placeholder="First Name / Last Name" maxlength="60" autocomplete="name"><div class="co-err">Please enter your full name.</div></div>
           <div class="co-fg" id="fgPhone"><label for="custPhone">Contact Number</label><input type="tel" id="custPhone" placeholder="09XX XXX XXXX" maxlength="20" autocomplete="tel"><div class="co-err">Please enter your contact number.</div></div>
         </div>
-        <div class="co-fg" id="fgEmail"><label for="custEmail">Email Address <small>(optional)</small></label><input type="email" id="custEmail" placeholder="youremail@gmail.com" maxlength="120" autocomplete="email"><div class="co-err">Please enter a valid email address.</div></div>
-        <div class="co-fg"><label for="custNotes">Notes <small>(optional)</small></label><textarea id="custNotes" rows="2" placeholder="Number of players, requests..."></textarea></div>
         <div class="co-summary" id="coSummary"></div>
       </div>
       <div id="coPagePayment" style="display:none">
@@ -1712,7 +1710,7 @@ function renderCheckoutSummary(){
 }
 
 function setInvalid(id,bad){document.getElementById(id).classList.toggle('invalid',bad);return bad;}
-['custName','custPhone','custEmail'].forEach(id=>document.getElementById(id).addEventListener('input',e=>e.target.closest('.co-fg').classList.remove('invalid')));
+['custName','custPhone'].forEach(id=>document.getElementById(id).addEventListener('input',e=>e.target.closest('.co-fg').classList.remove('invalid')));
 
 function checkoutBack(){
   if(!checkout)return;
@@ -1725,11 +1723,9 @@ function checkoutNext(){
   if(checkout.page==='details'){
     const name=document.getElementById('custName').value.trim();
     const phone=document.getElementById('custPhone').value.trim();
-    const email=document.getElementById('custEmail').value.trim();
     const bad=[
       setInvalid('fgName',!name),
       setInvalid('fgPhone',phone.replace(/\D/g,'').length<7),
-      setInvalid('fgEmail',!!email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)),
     ];
     if(bad.some(Boolean)){document.querySelector('.co-fg.invalid input').focus();return;}
     showCheckoutPage('payment');
@@ -1773,8 +1769,6 @@ async function handleFileSelect(e){
 async function submitBooking(){
   const name=document.getElementById('custName').value.trim();
   const phone=document.getElementById('custPhone').value.trim();
-  const email=document.getElementById('custEmail').value.trim();
-  const notes=document.getElementById('custNotes').value.trim();
   if(setInvalid('fgUpload',!paymentBase64))return;
   const items=selectionItems();
   if(!items.length)return;
@@ -1791,7 +1785,7 @@ async function submitBooking(){
       const res=await fetch(API,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({txnId,lockToken:checkout.token,name,phone,email,notes,...it,paymentData:first?paymentBase64:null,paymentType:first?paymentType:null})
+        body:JSON.stringify({txnId,lockToken:checkout.token,name,phone,...it,paymentData:first?paymentBase64:null,paymentType:first?paymentType:null})
       });
       const data=await res.json();
       if(!res.ok){
@@ -1840,7 +1834,7 @@ function showSuccess(bookings,name,phone){
 
 function resetBooking(){
   selectedDates=[];selections=new Map();paymentBase64=null;paymentType=null;
-  ['custName','custPhone','custEmail','custNotes','payFile'].forEach(id=>document.getElementById(id).value='');
+  ['custName','custPhone','payFile'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('uploadArea').classList.remove('has-file');
   document.querySelector('#uploadArea .upload-text').textContent='Tap to upload GCash / Maya / Bank transfer screenshot';
   document.getElementById('uploadPreview').style.display='none';
